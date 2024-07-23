@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>潜水收购计算器</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .calculator {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #total {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        @media (max-width: 600px) {
+            .calculator {
+                padding: 15px;
+            }
+            input[type="number"] {
+                padding: 6px;
+                margin-bottom: 15px;
+            }
+            button {
+                padding: 8px 15px;
+            }
+            #total {
+                font-size: 16px;
+            }
+        }
+    </style>
+    <script>
+        function calculateTotal() {
+            // 定义货币价值
+            var jinbi = 350;
+            var gangbi = 75; 
+            var tongbi = 180;
+            var yinbi = 150;
+            var zhenzhu = 450;
+
+            // 读取输入值
+            var jin = document.getElementById('jin').value || 0;
+            var yin = document.getElementById('yin').value || 0;
+            var tong = document.getElementById('tong').value || 0;
+            var zhenzhuu = document.getElementById('zhenzhu').value || 0;
+            var gang = document.getElementById('gang').value || 0;
+
+            // 验证输入值
+            jin = parseInt(jin);
+            yin = parseInt(yin);
+            tong = parseInt(tong);
+            zhenzhuu = parseInt(zhenzhuu);
+            gang = parseInt(gang);
+
+            // 计算总价值
+            var total = jin * jinbi + yin * yinbi + tong * tongbi + zhenzhuu * zhenzhu + gang * gangbi;
+
+            // 显示结果
+            document.getElementById('total').innerText = '总价值: ' + total;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var inputs = document.querySelectorAll('input[type="number"]');
+            inputs.forEach(input => {
+                input.addEventListener('input', calculateTotal);
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="calculator">
+        <h1>货币计算器</h1>
+        <form>
+            <label for="jin">金的数量:</label>
+            <input type="number" id="jin" name="jin" min="0"><br><br>
+            
+            <label for="yin">银的数量:</label>
+            <input type="number" id="yin" name="yin" min="0"><br><br>
+            
+            <label for="tong">铜的数量:</label>
+            <input type="number" id="tong" name="tong" min="0"><br><br>
+            
+            <label for="zhenzhu">珍珠的数量:</label>
+            <input type="number" id="zhenzhu" name="zhenzhu" min="0"><br><br>
+
+            <label for="gang">钢的数量:</label>
+            <input type="number" id="gang" name="gang" min="0"><br><br>
+            
+            <button type="button" onclick="calculateTotal()">计算总价值</button>
+        </form>
+        <p id="total">总价值: 0</p>
+    </div>
+</body>
+</html>
