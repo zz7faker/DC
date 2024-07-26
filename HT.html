@@ -7,12 +7,19 @@
     <style>
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);;
+        }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
         }
         .calculator {
             background: #fff;
@@ -27,28 +34,28 @@
         h1 {
             margin-bottom: 20px;
         }
-        label {
-            display: block;
-            margin: 10px 0 5px;
-        }
-        input[type="number"] {
-            width: 100%;
-            padding: 8px;
+        .input-group {
+            position: relative;
             margin-bottom: 20px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .input-group input[type="number"] {
+            width: 100%;
+            padding: 8px 35px 8px 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
         }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
+        .input-group .icon {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(0%);
+            font-size: 16px;
+            color: #999;
         }
         #total {
             margin-top: 20px;
@@ -59,12 +66,8 @@
             .calculator {
                 padding: 15px;
             }
-            input[type="number"] {
-                padding: 6px;
-                margin-bottom: 15px;
-            }
-            button {
-                padding: 8px 15px;
+            .input-group input[type="number"] {
+                padding: 6px 35px 6px 10px;
             }
             #total {
                 font-size: 16px;
@@ -73,21 +76,17 @@
     </style>
     <script>
         function calculateProfit() {
-            // 读取输入值
             var huafei = document.getElementById('huafei').value || 0;
             var baochou = document.getElementById('baochou').value || 0;
             var canyurenshu = document.getElementById('canyurenshu').value || 1;
 
-            // 验证输入值
             huafei = parseFloat(huafei);
             baochou = parseFloat(baochou);
             canyurenshu = parseInt(canyurenshu);
 
-            // 计算每人获得的金额
             var profitPerPerson = ((baochou - huafei) / canyurenshu) * 0.95;
 
-            // 显示结果
-            document.getElementById('total').innerText = '每人获得: ' + profitPerPerson.toFixed(2) + ' 元';
+            document.getElementById('total').innerText = '每人获得: ' + profitPerPerson.toFixed(2) + ' $';
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -102,18 +101,28 @@
     <div class="calculator">
         <h1>合同收益计算器</h1>
         <form>
-            <label for="huafei">花费</label>
-            <input type="number" id="huafei" name="huafei" min="0"><br><br>
+            <div class="input-group">
+                <label for="huafei">花费</label>
+                <input type="number" id="huafei" name="huafei" min="0">
+                <span class="icon">💸</span>
+            </div>
             
-            <label for="baochou">报酬</label>
-            <input type="number" id="baochou" name="baochou" min="0"><br><br>
+            <div class="input-group">
+                <label for="baochou">报酬</label>
+                <input type="number" id="baochou" name="baochou" min="0">
+                <span class="icon">💰</span>
+            </div>
             
-            <label for="canyurenshu">参与人数</label>
-            <input type="number" id="canyurenshu" name="canyurenshu" min="1" value="1"><br><br>
-            
-            <button type="button" onclick="calculateProfit()">计算每人获得金额</button>
+            <div class="input-group">
+                <label for="canyurenshu">参与人数</label>
+                <input type="number" id="canyurenshu" name="canyurenshu" min="1" value="1">
+                <span class="icon">👥</span>
+            </div>
         </form>
-        <p id="total">每人获得: 0 元</p>
+        <p id="total">每人获得: 0 $</p>
+        <footer>
+            &copy; 2024 合同收益计算器 | 制作人: 保罗 迈尔
+        </footer>
     </div>
 </body>
 </html>
