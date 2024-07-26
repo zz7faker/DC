@@ -34,61 +34,40 @@
         h1 {
             margin-bottom: 20px;
         }
-        label {
-            display: block;
-            margin: 5px 0 5px;
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
         }
-        input[type="number"] {
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .input-group input[type="number"] {
             width: 100%;
-            padding: 8px;
-            margin-bottom: 0px;
+            padding: 8px 35px 8px 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
         }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
+        .input-group .icon {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: #999;
         }
         #total {
             margin-top: 20px;
             font-size: 18px;
             font-weight: bold;
         }
-        #prices {
-            text-align: left;
-            margin-top: 10px;
-        }
-        #prices table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        #prices th, #prices td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: left;
-        }
-        #prices th {
-            background-color: #f2f2f2;
-        }
         @media (max-width: 600px) {
             .calculator {
                 padding: 15px;
             }
-            input[type="number"] {
-                padding: 6px;
-                margin-bottom: 15px;
-            }
-            button {
-                padding: 8px 15px;
+            .input-group input[type="number"] {
+                padding: 6px 35px 6px 10px;
             }
             #total {
                 font-size: 16px;
@@ -110,12 +89,13 @@
         function displayPrices() {
             var prices = getPrices();
             var pricesTable = document.getElementById('pricesTable');
-            pricesTable.innerHTML = '<tr><th>货币类型</th><th>单价 ($)</th></tr>' +
-                                    '<tr><td>珍珠</td><td>' + prices.zhenzhu + '</td></tr>' +
-                                    '<tr><td>金</td><td>' + prices.jinbi + '</td></tr>' +
-                                    '<tr><td>银</td><td>' + prices.yinbi + '</td></tr>' +
-                                    '<tr><td>铜</td><td>' + prices.tongbi + '</td></tr>' +
-                                    '<tr><td>钢</td><td>' + prices.gangbi + '</td></tr>';
+            pricesTable.innerHTML = 
+                '<tr><th>货币类型</th><th>数量</th><th>单价</th></tr>' +
+                '<tr><td>珍珠数量:</td><td class="input-group"><input type="number" id="zhenzhu" name="zhenzhu" min="0"><span class="icon">💎</span></td><td>' + prices.zhenzhu + ' $</td></tr>' +
+                '<tr><td>金的数量:</td><td class="input-group"><input type="number" id="jin" name="jin" min="0"><span class="icon">🏅</span></td><td>' + prices.jinbi + ' $</td></tr>' +
+                '<tr><td>银的数量:</td><td class="input-group"><input type="number" id="yin" name="yin" min="0"><span class="icon">🥈</span></td><td>' + prices.yinbi + ' $</td></tr>' +
+                '<tr><td>铜的数量:</td><td class="input-group"><input type="number" id="tong" name="tong" min="0"><span class="icon">🥉</span></td><td>' + prices.tongbi + ' $</td></tr>' +
+                '<tr><td>钢的数量:</td><td class="input-group"><input type="number" id="gang" name="gang" min="0"><span class="icon">🔩</span></td><td>' + prices.gangbi + ' $</td></tr>';
         }
 
         function calculateTotal() {
@@ -148,33 +128,14 @@
 </head>
 <body>
     <div class="calculator">
-        <h1>潜水收益计算器</h1>
+        <h1><span style="font-size: 1em;">💰</span>潜水收益计算器<span style="font-size: 1em;">💰</span></h1>
         <div id="prices">
             <table id="pricesTable"></table>
         </div>
-        <form>
-            <label for="zhenzhu">珍珠的数量:</label>
-            <input type="number" id="zhenzhu" name="zhenzhu" min="0"><br><br>
-
-            <label for="jin">金的数量:</label>
-            <input type="number" id="jin" name="jin" min="0"><br><br>
-            
-            <label for="yin">银的数量:</label>
-            <input type="number" id="yin" name="yin" min="0"><br><br>
-            
-            <label for="tong">铜的数量:</label>
-            <input type="number" id="tong" name="tong" min="0"><br><br>
-
-            <label for="gang">钢的数量:</label>
-            <input type="number" id="gang" name="gang" min="0"><br><br>
-            
-            <!-- <button type="button" onclick="calculateTotal()">计算总价值</button> -->
-        </form>
         <p id="total">总价值: 0 $</p>
         <footer>
             &copy; 2024 潜水收益计算器 | 制作人: 保罗 迈尔
         </footer>
     </div>
-    
 </body>
 </html>
