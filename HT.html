@@ -82,25 +82,7 @@
             }
         }
     </style>
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
     <script>
-        // Firebase 配置
-        const firebaseConfig = {
-            apiKey: "AIzaSyCtsAot1T6lj1KIpoytH0HSoRPwFwXCFAU",
-            authDomain: "spantoolcal.firebaseapp.com",
-            projectId: "spantoolcal",
-            storageBucket: "spantoolcal.appspot.com",
-            messagingSenderId: "39569200900",
-            appId: "1:39569200900:web:1eca34b1639bce9c4f6251",
-            measurementId: "G-G065E3442Q"
-        };
-
-        // 初始化 Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
         function calculateProfit() {
             var huafei = document.getElementById('huafei').value || 0;
             var baochou = document.getElementById('baochou').value || 0;
@@ -115,23 +97,7 @@
             document.getElementById('total').innerText = '每人获得: ' + profitPerPerson.toFixed(2) + ' $';
         }
 
-        async function updateVisitCount() {
-            const visitRef = db.collection('visits').doc('visitCount');
-            const doc = await visitRef.get();
-
-            let visits = 0;
-            if (doc.exists) {
-                visits = doc.data().count;
-            }
-
-            visits += 1;
-            await visitRef.set({ count: visits });
-
-            document.getElementById('visitCount').innerText = '访问量: ' + visits;
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
-            updateVisitCount();
             var inputs = document.querySelectorAll('input[type="number"]');
             inputs.forEach(input => {
                 input.addEventListener('input', calculateProfit);
@@ -163,7 +129,6 @@
             </div>
         </form>
         <p id="total">每人获得: 0 $</p>
-        <p id="visitCount">访问量: 0</p>
         <footer>
             &copy; 2024 合同收益计算器 | 制作人: 保罗 迈尔
         </footer>
