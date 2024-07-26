@@ -2,17 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>潜水收购计算器</title>
+    <title>潜水收益计算器</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+        }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
         }
         .calculator {
             background: #fff;
@@ -29,12 +36,12 @@
         }
         label {
             display: block;
-            margin: 10px 0 5px;
+            margin: 5px 0 5px;
         }
         input[type="number"] {
             width: 100%;
             padding: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
@@ -55,6 +62,23 @@
             font-size: 18px;
             font-weight: bold;
         }
+        #prices {
+            text-align: left;
+            margin-top: 10px;
+        }
+        #prices table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        #prices th, #prices td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        #prices th {
+            background-color: #f2f2f2;
+        }
         @media (max-width: 600px) {
             .calculator {
                 padding: 15px;
@@ -72,36 +96,49 @@
         }
     </style>
     <script>
-        function calculateTotal() {
-            // 定义货币价值
-            var jinbi = 350;
-            var gangbi = 75; 
-            var tongbi = 180;
-            var yinbi = 150;
-            var zhenzhu = 450;
+        // 获取今日各类珠宝币的单价
+        function getPrices() {
+            return {
+                jinbi: 350,
+                yinbi: 150,
+                tongbi: 180,
+                zhenzhu: 450,
+                gangbi: 75
+            };
+        }
 
-            // 读取输入值
+        function displayPrices() {
+            var prices = getPrices();
+            var pricesTable = document.getElementById('pricesTable');
+            pricesTable.innerHTML = '<tr><th>货币类型</th><th>单价 ($)</th></tr>' +
+                                    '<tr><td>珍珠</td><td>' + prices.zhenzhu + '</td></tr>' +
+                                    '<tr><td>金</td><td>' + prices.jinbi + '</td></tr>' +
+                                    '<tr><td>银</td><td>' + prices.yinbi + '</td></tr>' +
+                                    '<tr><td>铜</td><td>' + prices.tongbi + '</td></tr>' +
+                                    '<tr><td>钢</td><td>' + prices.gangbi + '</td></tr>';
+        }
+
+        function calculateTotal() {
+            var prices = getPrices();
             var jin = document.getElementById('jin').value || 0;
             var yin = document.getElementById('yin').value || 0;
             var tong = document.getElementById('tong').value || 0;
             var zhenzhuu = document.getElementById('zhenzhu').value || 0;
             var gang = document.getElementById('gang').value || 0;
 
-            // 验证输入值
             jin = parseInt(jin);
             yin = parseInt(yin);
             tong = parseInt(tong);
             zhenzhuu = parseInt(zhenzhuu);
             gang = parseInt(gang);
 
-            // 计算总价值
-            var total = jin * jinbi + yin * yinbi + tong * tongbi + zhenzhuu * zhenzhu + gang * gangbi;
+            var total = jin * prices.jinbi + yin * prices.yinbi + tong * prices.tongbi + zhenzhuu * prices.zhenzhu + gang * prices.gangbi;
 
-            // 显示结果
-            document.getElementById('total').innerText = '总价值: ' + total;
+            document.getElementById('total').innerText = '总价值: ' + total + ' $';
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            displayPrices();
             var inputs = document.querySelectorAll('input[type="number"]');
             inputs.forEach(input => {
                 input.addEventListener('input', calculateTotal);
@@ -111,26 +148,33 @@
 </head>
 <body>
     <div class="calculator">
-        <h1>潜水收购计算器</h1>
+        <h1>潜水收益计算器</h1>
+        <div id="prices">
+            <table id="pricesTable"></table>
+        </div>
         <form>
-            <label for="jin">金的数量</label>
-            <input type="number" id="jin" name="jin" min="0"><br><br>
-            
-            <label for="yin">银的数量</label>
-            <input type="number" id="yin" name="yin" min="0"><br><br>
-            
-            <label for="tong">铜的数量</label>
-            <input type="number" id="tong" name="tong" min="0"><br><br>
-            
-            <label for="zhenzhu">珍珠的数量</label>
+            <label for="zhenzhu">珍珠的数量:</label>
             <input type="number" id="zhenzhu" name="zhenzhu" min="0"><br><br>
 
-            <label for="gang">钢的数量</label>
+            <label for="jin">金的数量:</label>
+            <input type="number" id="jin" name="jin" min="0"><br><br>
+            
+            <label for="yin">银的数量:</label>
+            <input type="number" id="yin" name="yin" min="0"><br><br>
+            
+            <label for="tong">铜的数量:</label>
+            <input type="number" id="tong" name="tong" min="0"><br><br>
+
+            <label for="gang">钢的数量:</label>
             <input type="number" id="gang" name="gang" min="0"><br><br>
             
             <button type="button" onclick="calculateTotal()">计算总价值</button>
         </form>
-        <p id="total">总价值: 0</p>
+        <p id="total">总价值: 0 $</p>
+        <footer>
+            &copy; 2024 潜水收益计算器 | 制作人: 保罗 迈尔
+        </footer>
     </div>
+    
 </body>
 </html>
