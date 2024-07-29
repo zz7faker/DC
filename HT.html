@@ -65,6 +65,38 @@
             font-size: 16px;
             color: #999;
         }
+        .rate-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .rate-buttons button {
+            padding: 10px 20px;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            background: #f6d365;
+            color: #fff;
+            cursor: pointer;
+            position: relative;
+        }
+        .rate-buttons button.active {
+            border-color: #fff;
+        }
+        .rate-buttons button.active::after {
+            content: '✔';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #fda085;
+            color: #fff;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
         #total {
             margin-top: 20px;
             font-size: 18px;
@@ -83,6 +115,8 @@
         }
     </style>
     <script>
+        var currentRate = 0.95;
+
         function calculateProfit() {
             var huafei = document.getElementById('huafei').value || 0;
             var baochou = document.getElementById('baochou').value || 0;
@@ -92,9 +126,22 @@
             baochou = parseFloat(baochou);
             canyurenshu = parseInt(canyurenshu);
 
-            var profitPerPerson = ((baochou - huafei) / canyurenshu) * 0.95;
+            var profitPerPerson = ((baochou - huafei) / canyurenshu) * currentRate;
 
             document.getElementById('total').innerText = '每人获得: ' + profitPerPerson.toFixed(2) + ' $';
+        }
+
+        function setRate(rate) {
+            currentRate = rate;
+            document.querySelectorAll('.rate-buttons button').forEach(button => {
+                button.classList.remove('active');
+            });
+            if (rate === 0.95) {
+                document.getElementById('rate-old').classList.add('active');
+            } else {
+                document.getElementById('rate-new').classList.add('active');
+            }
+            calculateProfit();
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -102,6 +149,7 @@
             inputs.forEach(input => {
                 input.addEventListener('input', calculateProfit);
             });
+            setRate(currentRate); // 设置默认汇率
         });
     </script>
 </head>
@@ -128,6 +176,10 @@
                 <span class="icon">👥</span>
             </div>
         </form>
+        <div class="rate-buttons">
+            <button id="rate-old" onclick="setRate(0.95)">老人版汇率</button>
+            <button id="rate-new" onclick="setRate(0.8)">新人版汇率</button>
+        </div>
         <p id="total">每人获得: 0 $</p>
         <footer>
             &copy; 2024 合同收益计算器 | 制作人: 007faker
