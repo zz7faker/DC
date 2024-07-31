@@ -62,6 +62,12 @@
             font-size: 18px;
             font-weight: bold;
         }
+        #receipt {
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            white-space: pre-wrap;
+        }
         @media (max-width: 600px) {
             .calculator {
                 padding: 15px;
@@ -69,7 +75,7 @@
             .input-group input[type="number"] {
                 padding: 6px 35px 6px 10px;
             }
-            #total {
+            #total, #receipt {
                 font-size: 16px;
             }
         }
@@ -117,12 +123,40 @@
             document.getElementById('total').innerText = '总价值: ' + total + ' $';
         }
 
+        function generateReceipt() {
+            var prices = getPrices();
+            var jin = document.getElementById('jin').value || 0;
+            var yin = document.getElementById('yin').value || 0;
+            var tong = document.getElementById('tong').value || 0;
+            var zhenzhuu = document.getElementById('zhenzhu').value || 0;
+            var gang = document.getElementById('gang').value || 0;
+
+            jin = parseInt(jin);
+            yin = parseInt(yin);
+            tong = parseInt(tong);
+            zhenzhuu = parseInt(zhenzhuu);
+            gang = parseInt(gang);
+
+            var total = jin * prices.jinbi + yin * prices.yinbi + tong * prices.tongbi + zhenzhuu * prices.zhenzhu + gang * prices.gangbi;
+
+            var receiptText = '回收明细:\n';
+            receiptText += '珍珠数量: ' + zhenzhuu + '，回收价值: ' + (zhenzhuu * prices.zhenzhu) + ' $\n';
+            receiptText += '金的数量: ' + jin + '，回收价值: ' + (jin * prices.jinbi) + ' $\n';
+            receiptText += '银的数量: ' + yin + '，回收价值: ' + (yin * prices.yinbi) + ' $\n';
+            receiptText += '铜的数量: ' + tong + '，回收价值: ' + (tong * prices.tongbi) + ' $\n';
+            receiptText += '钢的数量: ' + gang + '，回收价值: ' + (gang * prices.gangbi) + ' $\n';
+            receiptText += '总回收价值: ' + total + ' $';
+
+            document.getElementById('receipt').innerText = receiptText;
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             displayPrices();
             var inputs = document.querySelectorAll('input[type="number"]');
             inputs.forEach(input => {
                 input.addEventListener('input', calculateTotal);
             });
+            document.getElementById('receiptButton').addEventListener('click', generateReceipt);
         });
     </script>
 </head>
@@ -133,6 +167,8 @@
             <table id="pricesTable"></table>
         </div>
         <p id="total">总价值: 0 $</p>
+        <button id="receiptButton">收购回执</button>
+        <p id="receipt"></p>
         <footer>
             &copy; 2024 潜水收益计算器 | 制作人: 007faker
         </br>游戏内联系:727700,打不通可短信
