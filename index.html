@@ -22,6 +22,17 @@
             color: #666;
         }
         .calculator {
+            display: none; /* Initially hide the calculator */
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+        .password-prompt {
             background: #fff;
             padding: 20px;
             border-radius: 10px;
@@ -42,7 +53,8 @@
             display: block;
             margin-bottom: 5px;
         }
-        .input-group input[type="number"] {
+        .input-group input[type="number"],
+        .input-group input[type="password"] {
             width: 100%;
             padding: 8px 35px 8px 10px;
             border: 1px solid #ccc;
@@ -150,30 +162,54 @@
             document.getElementById('receipt').innerText = receiptText;
         }
 
+        function checkPassword() {
+            var password = document.getElementById('password').value;
+            var correctPassword = 'aa123'; // Replace with the actual password
+
+            if (password === correctPassword) {
+                document.querySelector('.password-prompt').style.display = 'none';
+                document.querySelector('.calculator').style.display = 'block';
+                displayPrices();
+                var inputs = document.querySelectorAll('input[type="number"]');
+                inputs.forEach(input => {
+                    input.addEventListener('input', calculateTotal);
+                });
+                document.getElementById('receiptButton').addEventListener('click', generateReceipt);
+            } else {
+                alert('密码错误，请重试。');
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
-            displayPrices();
-            var inputs = document.querySelectorAll('input[type="number"]');
-            inputs.forEach(input => {
-                input.addEventListener('input', calculateTotal);
-            });
-            document.getElementById('receiptButton').addEventListener('click', generateReceipt);
+            document.getElementById('submitPassword').addEventListener('click', checkPassword);
         });
     </script>
 </head>
 <body>
-    <div class="calculator">
-        <!-- <h1><span style="font-size: 1em;">💰</span>潜水收益计算器<span style="font-size: 1em;">💰</span></h1>
-        <div id="prices">
-            <table id="pricesTable"></table>
-        </div> -->
-        
-        <p id="total">回收珠宝，游戏内联系：727700</p>
-        <!-- <button id="receiptButton">收购回执</button>
-        <p id="receipt"></p> -->
-        <!-- <footer>
+    <div class="password-prompt">
+        <h1>Dive calculator</h2>
+        <h1>请输入密码</h1>
+        <div class="input-group">
+            <input type="password" id="password" placeholder="密码">
+            <span class="icon">🔒</span>
+        </div>
+        <button id="submitPassword">提交</button>
+        <footer>
             &copy; 2024 潜水收益计算器 | 制作人: 007faker
         </br>游戏内联系:727700,打不通可短信
-        </footer> -->
+    </div>
+    <div class="calculator">
+        <h1><span style="font-size: 1em;">💰</span>潜水收益计算器<span style="font-size: 1em;">💰</span></h1>
+        <div id="prices">
+            <table id="pricesTable"></table>
+        </div>
+        <p id="total">总价值: 0 $</p>
+        <button id="receiptButton">收购回执</button>
+        <p id="receipt"></p>
+        <footer>
+            &copy; 2024 潜水收益计算器 | 制作人: 007faker
+        </br>游戏内联系:727700,打不通可短信
+        </footer>
     </div>
 </body>
 </html>
