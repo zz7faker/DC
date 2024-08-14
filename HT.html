@@ -131,18 +131,15 @@
             document.getElementById('total').innerText = '每人获得: ' + profitPerPerson.toFixed(2) + ' $';
         }
 
-        function setRate(rate) {
+        function setRate(rate, buttonId) {
             currentRate = rate;
             document.querySelectorAll('.rate-buttons button').forEach(button => {
                 button.classList.remove('active');
             });
-            if (rate === 0.95) {
-                document.getElementById('rate-old').classList.add('active');
-            } else {
-                document.getElementById('rate-new').classList.add('active');
-            }
+            document.getElementById(buttonId).classList.add('active');
             calculateProfit();
         }
+
 
         document.addEventListener('DOMContentLoaded', function() {
             var inputs = document.querySelectorAll('input[type="number"]');
@@ -176,9 +173,10 @@
                 <span class="icon">👥</span>
             </div>
         </form>
+
         <div class="rate-buttons">
-            <button id="rate-old" onclick="setRate(0.95)">绿竹庭汇率</button>
-            <button id="rate-new" onclick="setRate(0.95)">碧竹轩汇率</button>
+            <button id="rate-lvt" onclick="setRate(0.95, 'rate-lvt')">绿竹庭汇率</button>
+            <button id="rate-bzx" onclick="setRate(0.95, 'rate-bzx')">碧竹轩汇率</button>
         </div>
         <p id="total">每人获得: 0 $</p>
         <footer>
