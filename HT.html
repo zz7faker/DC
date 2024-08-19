@@ -121,14 +121,17 @@
             var huafei = document.getElementById('huafei').value || 0;
             var baochou = document.getElementById('baochou').value || 0;
             var canyurenshu = document.getElementById('canyurenshu').value || 1;
+            var taskCount = document.getElementById('taskCount').value || 1;
 
             huafei = parseFloat(huafei);
             baochou = parseFloat(baochou);
             canyurenshu = parseInt(canyurenshu);
+            taskCount = parseInt(taskCount);
 
-            var profitPerPerson = ((baochou - huafei) / canyurenshu) * currentRate;
+            var totalProfit = (baochou / taskCount - huafei / taskCount) / canyurenshu;
+            var finalProfit = totalProfit * currentRate;
 
-            document.getElementById('total').innerText = '每人获得: ' + profitPerPerson.toFixed(2) + ' $';
+            document.getElementById('total').innerText = '每人每次任务获得: ' + finalProfit.toFixed(2) + ' $';
         }
 
         function setRate(rate, buttonId) {
@@ -139,7 +142,6 @@
             document.getElementById(buttonId).classList.add('active');
             calculateProfit();
         }
-
 
         document.addEventListener('DOMContentLoaded', function() {
             var inputs = document.querySelectorAll('input[type="number"]');
@@ -171,6 +173,12 @@
                 <label for="canyurenshu">参与人数</label>
                 <input type="number" id="canyurenshu" name="canyurenshu" min="1" value="1">
                 <span class="icon">👥</span>
+            </div>
+
+            <div class="input-group">
+                <label for="taskCount">合同任务次数<em style="color: #ed5f2b;">【抢劫填写】</em></label>
+                <input type="number" id="taskCount" name="taskCount" min="1" value="1">
+                <span class="icon">🔄</span>
             </div>
         </form>
 
