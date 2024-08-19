@@ -131,7 +131,7 @@
             var totalProfit = (baochou / taskCount - huafei / taskCount) / canyurenshu;
             var finalProfit = totalProfit * currentRate;
 
-            document.getElementById('total').innerText = '每人每次任务获得: ' + finalProfit.toFixed(2) + ' $';
+            document.getElementById('total').innerText = '每人获得: ' + finalProfit.toFixed(2) + ' $';
         }
 
         function setRate(rate, buttonId) {
@@ -184,7 +184,7 @@
 
         <div class="rate-buttons">
             <button id="rate-lvt" onclick="setRate(0.95, 'rate-lvt')">绿竹庭汇率</button>
-            <button id="rate-bzx" onclick="setRate(0.95, 'rate-bzx')">碧竹轩汇率</button>
+            <!-- <button id="rate-bzx" onclick="setRate(0.95, 'rate-bzx')">碧竹轩汇率</button> -->
         </div>
         <p id="total">每人获得: 0 $</p>
         <footer>
